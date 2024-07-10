@@ -21,7 +21,7 @@ cd your-repository
 
 3. **Install dependencies:**
 
-pip install -r requirements.txt
+pip install -r requirement.txt
 
 
 
