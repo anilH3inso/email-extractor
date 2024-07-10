@@ -4,11 +4,8 @@ import re
 from urllib.parse import urljoin, urlparse
 import time
 
-
-
 def get_banner_text():
     banner_text = '''
-
 $$$$$$$$\                         $$\ $$\                                                 
 $$  _____|                        \__|$$ |                                                
 $$ |      $$$$$$\$$$$\   $$$$$$\  $$\ $$ |                                                
@@ -20,7 +17,7 @@ $$$$$$$$\ $$ | $$ | $$ |\$$$$$$$ |$$ |$$ |
 $$$$$$$$\             $$\                                     $$\                         
 $$  _____|            $$ |                                    $$ |                        
 $$ |      $$\   $$\ $$$$$$\    $$$$$$\   $$$$$$\   $$$$$$$\ $$$$$$\    $$$$$$\   $$$$$$\  
-$$$$$\    \$$\ $$  |\_$$  _|  $$  __$$\  \____$$\ $$  _____|\_$$  _|  $$  __$$\ $$  __$$\ 
+$$$$$\    \$$\ $$\  \_$$  _|  $$  __$$\  \____$$\ $$  _____|\_$$  _|  $$  __$$\ $$  __$$\ 
 $$  __|    \$$$$  /   $$ |    $$ |  \__| $$$$$$$ |$$ /        $$ |    $$ /  $$ |$$ |  \__|
 $$ |       $$  $$<    $$ |$$\ $$ |      $$  __$$ |$$ |        $$ |$$\ $$ |  $$ |$$ |      
 $$$$$$$$\ $$  /\$$\   \$$$$  |$$ |      \$$$$$$$ |\$$$$$$$\   \$$$$  |\$$$$$$  |$$ |      
@@ -28,14 +25,8 @@ $$$$$$$$\ $$  /\$$\   \$$$$  |$$ |      \$$$$$$$ |\$$$$$$$\   \$$$$  |\$$$$$$  |
                                                                                           
                                                                                           
                                                                                      -By insoHacker
-                                                                                     
-    '''
+'''
     return banner_text
-
-# Example usage:
-banner = get_banner_text()
-print(banner)
-                                                                     
 
 def extract_emails(text):
     # Regular expression to find email addresses
@@ -114,9 +105,37 @@ def crawl_website(url, max_urls=None):
 
 if __name__ == "__main__":
     # Input from user
-    url = input("Enter website URL: ").strip()
-    max_urls = int(input("Enter the maximum number of URLs to scan (enter 0 for unlimited): ").strip())
-    output_file = input("Enter output file name (e.g., emails.txt): ").strip()
+    banner = get_banner_text()
+    print(banner)
+    while True:
+        try:
+            url = input("Enter website URL: ").strip()
+            if not url.startswith(('http://', 'https://')):
+                url = 'http://' + url  # Default to http:// if not provided
+            parsed_url = urlparse(url)
+            if all([parsed_url.scheme, parsed_url.netloc]):
+                break
+            raise ValueError
+        except ValueError:
+            print("Invalid URL. Please enter a valid website URL.")
+
+    while True:
+        try:
+            max_urls = int(input("Enter the maximum number of URLs to scan (enter 0 for unlimited): ").strip())
+            if max_urls < 0:
+                raise ValueError
+            break
+        except ValueError:
+            print("Invalid input. Please enter a non-negative integer.")
+
+    while True:
+        try:
+            output_file = input("Enter output file name (e.g., emails.txt): ").strip()
+            if output_file:
+                break
+            raise ValueError
+        except ValueError:
+            print("Invalid file name. Please enter a valid file name.")
 
     # Crawl the website and extract emails
     emails = crawl_website(url, max_urls=max_urls)
@@ -127,4 +146,3 @@ if __name__ == "__main__":
             file.write(email + '\n')
 
     print(f"\nEmails extracted and saved to {output_file}")
-  
