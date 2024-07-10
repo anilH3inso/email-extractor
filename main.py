@@ -4,31 +4,38 @@ import re
 from urllib.parse import urljoin, urlparse
 import time
 
+
+
 def get_banner_text():
     banner_text = '''
 
-    $$$$$$$$$\                         $$\ $$\                                                 
-    $$  _____|                        \__|$$ |                                                
-    $$ |      $$$$$$\$$$$\   $$$$$$\  $$\ $$ |                                                
-    $$$$$\    $$  _$$  _$$\  \____$$\ $$ |$$ |                                                
-    $$  __|   $$ / $$ / $$ | $$$$$$$ |$$ |$$ |                                                
-    $$ |      $$ | $$ | $$ |$$  __$$ |$$ |$$ |                                                
-    $$$$$$$$$\ $$ | $$ | $$ |\$$$$$$$ |$$ |$$ |                                                
-    \________|\__| \__| \__| \_______|\__|\__|                                                
-    $$$$$$$$$\             $$\                                     $$\                         
-    $$  _____|            $$ |                                    $$ |                        
-    $$ |      $$\   $$\ $$$$$$\    $$$$$$\   $$$$$$\   $$$$$$$\ $$$$$$\    $$$$$$\   $$$$$$\  
-    $$$$$\    \$$\ $$  |\_$$  _|  $$  __$$\  \____$$\ $$  _____|\_$$  _|  $$  __$$\ $$  __$$\ 
-    $$  __|    \$$$$  /   $$ |    $$ |  \__| $$$$$$$ |$$ /        $$ |    $$ /  $$ |$$ |  \__|
-    $$ |       $$  $$<    $$ |$$\ $$ |      $$  __$$ |$$ |        $$ |$$\ $$ |  $$ |$$ |      
-    $$$$$$$$$\ $$  /\$$\   \$$$$  |$$ |      \$$$$$$$ |\$$$$$$$\   \$$$$  |\$$$$$$  |$$ |      
-    \________|\__/  \__|   \____/ \__|       \_______| \_______|   \____/  \______/ \__|      
-                                                                                              
-                                                                                              
+$$$$$$$$\                         $$\ $$\                                                 
+$$  _____|                        \__|$$ |                                                
+$$ |      $$$$$$\$$$$\   $$$$$$\  $$\ $$ |                                                
+$$$$$\    $$  _$$  _$$\  \____$$\ $$ |$$ |                                                
+$$  __|   $$ / $$ / $$ | $$$$$$$ |$$ |$$ |                                                
+$$ |      $$ | $$ | $$ |$$  __$$ |$$ |$$ |                                                
+$$$$$$$$\ $$ | $$ | $$ |\$$$$$$$ |$$ |$$ |                                                
+\________|\__| \__| \__| \_______|\__|\__|                                                
+$$$$$$$$\             $$\                                     $$\                         
+$$  _____|            $$ |                                    $$ |                        
+$$ |      $$\   $$\ $$$$$$\    $$$$$$\   $$$$$$\   $$$$$$$\ $$$$$$\    $$$$$$\   $$$$$$\  
+$$$$$\    \$$\ $$  |\_$$  _|  $$  __$$\  \____$$\ $$  _____|\_$$  _|  $$  __$$\ $$  __$$\ 
+$$  __|    \$$$$  /   $$ |    $$ |  \__| $$$$$$$ |$$ /        $$ |    $$ /  $$ |$$ |  \__|
+$$ |       $$  $$<    $$ |$$\ $$ |      $$  __$$ |$$ |        $$ |$$\ $$ |  $$ |$$ |      
+$$$$$$$$\ $$  /\$$\   \$$$$  |$$ |      \$$$$$$$ |\$$$$$$$\   \$$$$  |\$$$$$$  |$$ |      
+\________|\__/  \__|   \____/ \__|       \_______| \_______|   \____/  \______/ \__|      
+                                                                                          
+                                                                                          
                                                                                      -By insoHacker
                                                                                      
     '''
     return banner_text
+
+# Example usage:
+banner = get_banner_text()
+print(banner)
+                                                                     
 
 def extract_emails(text):
     # Regular expression to find email addresses
@@ -78,7 +85,6 @@ def crawl_website(url, max_urls=None):
             print(f"Scanning directory: {url}")
 
             # Increment scanned count
-            nonlocal scanned_count
             scanned_count += 1
 
             # Find all links on the page
@@ -106,57 +112,19 @@ def crawl_website(url, max_urls=None):
 
     return found_emails
 
-def prompt_for_url():
-    while True:
-        url = input("Enter website URL: ").strip()
-        if not url.startswith(('http://', 'https://')):
-            print("Invalid URL. Please include 'http://' or 'https://' in the beginning.")
-            continue
-        return url
-
-def prompt_for_max_urls():
-    while True:
-        try:
-            max_urls = int(input("Enter the maximum number of URLs to scan (enter 0 for unlimited): ").strip())
-            if max_urls < 0:
-                print("Maximum URLs cannot be negative. Please enter a non-negative number.")
-                continue
-            return max_urls
-        except ValueError:
-            print("Invalid input. Please enter a valid number.")
-
-def prompt_for_output_file():
-    while True:
-        output_file = input("Enter output file name (e.g., emails.txt): ").strip()
-        if not output_file.endswith('.txt'):
-            print("Invalid file name. Please include the extension '.txt' in the file name.")
-            continue
-        return output_file
-
 if __name__ == "__main__":
-    # Display banner
-    banner = get_banner_text()
-    print(banner)
+    # Input from user
+    url = input("Enter website URL: ").strip()
+    max_urls = int(input("Enter the maximum number of URLs to scan (enter 0 for unlimited): ").strip())
+    output_file = input("Enter output file name (e.g., emails.txt): ").strip()
 
-    while True:
-        try:
-            url = prompt_for_url()
-            max_urls = prompt_for_max_urls()
-            output_file = prompt_for_output_file()
+    # Crawl the website and extract emails
+    emails = crawl_website(url, max_urls=max_urls)
 
-            # Crawl the website and extract emails
-            emails = crawl_website(url, max_urls=max_urls)
+    # Save emails to file
+    with open(output_file, 'w') as file:
+        for email in emails:
+            file.write(email + '\n')
 
-            # Save emails to file
-            with open(output_file, 'w') as file:
-                for email in emails:
-                    file.write(email + '\n')
-
-            print(f"\nEmails extracted and saved to {output_file}")
-            break
-
-        except requests.exceptions.RequestException as e:
-            print(f"Error fetching URL: {e}. Please enter a valid URL.")
-        except Exception as e:
-            print(f"Error: {e}. Please try again.")
-
+    print(f"\nEmails extracted and saved to {output_file}")
+  
