@@ -9,13 +9,12 @@ This Python script crawls a website recursively, extracts email addresses, and s
 
 1. **Clone the repository:**
 
-git clone https://github.com/your-username/your-repository.git
-
+git clone https://github.com/anilH3inso/email-extractor.git
 
 
 2. **Navigate to the project directory:**
 
-cd your-repository
+cd email-extractor
 
 
 
