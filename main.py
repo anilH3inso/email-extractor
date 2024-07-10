@@ -76,12 +76,18 @@ def crawl_website(url, max_urls=None):
             print(f"Scanning directory: {url}")
 
             # Increment scanned count
+            nonlocal scanned_count
             scanned_count += 1
 
             # Find all links on the page
             for link in soup.find_all('a', href=True):
                 absolute_url = urljoin(base_url, link['href'])
-                if absolute_url.startswith(base_url) and absolute_url not in visited_urls:
+                parsed_absolute_url = urlparse(absolute_url)
+                if parsed_absolute_url.scheme not in ['http', 'https']:
+                    continue  # Skip non-HTTP/HTTPS URLs
+                if parsed_absolute_url.netloc != urlparse(url).netloc:
+                    continue  # Skip external links
+                if absolute_url not in visited_urls:
                     if max_urls is None or scanned_count < max_urls:
                         crawl(absolute_url)
 
