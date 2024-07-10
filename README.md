@@ -8,20 +8,20 @@ This Python script crawls a website recursively, extracts email addresses, and s
 ## Installation
 
 1. **Clone the repository:**
-```bash
+`
 $ git clone https://github.com/anilH3inso/email-extractor.git
-
+`
 
 2. **Navigate to the project directory:**
-
+`
 $ cd email-extractor
-
+`
 
 
 3. **Install dependencies:**
-
+`
 $ pip install -r requirement.txt
-
+`
 
 
 - Ensure you have Python 3.x installed.
@@ -35,9 +35,9 @@ $ pip install -r requirement.txt
 ## Usage
 
 1. **Run the script:**
-
+`
 $ python main.py
-
+`
 
 
 2. **Follow the prompts:**
