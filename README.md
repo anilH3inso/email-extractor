@@ -9,18 +9,18 @@ This Python script crawls a website recursively, extracts email addresses, and s
 
 1. **Clone the repository:**
 
-git clone https://github.com/anilH3inso/email-extractor.git
+$ git clone https://github.com/anilH3inso/email-extractor.git
 
 
 2. **Navigate to the project directory:**
 
-cd email-extractor
+$ cd email-extractor
 
 
 
 3. **Install dependencies:**
 
-pip install -r requirement.txt
+$ pip install -r requirement.txt
 
 
 
@@ -36,7 +36,7 @@ pip install -r requirement.txt
 
 1. **Run the script:**
 
-python main.py
+$ python main.py
 
 
 
@@ -46,7 +46,7 @@ python main.py
 - Specify the maximum number of URLs to scan (enter `0` for unlimited).
 - Provide an output file name (e.g., `emails.txt`) to save extracted email addresses.
 
-3. **Output:**
+3. **Output:**your-repository
 
 - The script will crawl the provided website, extract email addresses from each page, and save them to the specified output file.
 
